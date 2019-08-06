@@ -16,10 +16,8 @@ public class PlayerData
         {
             for (int i = 0; i < players.ListOfPawns.Count; i++)
             {
-                position[counter] = players.ListOfPawns[i]._MyCore.x;
-                counter++;
-                position[counter] = players.ListOfPawns[i]._MyCore.y;
-                counter++;
+                position[counter++] = players.ListOfPawns[i]._MyCore.x;
+                position[counter++] = players.ListOfPawns[i]._MyCore.y;
             }
         }
     }

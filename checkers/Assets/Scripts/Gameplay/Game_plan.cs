@@ -217,33 +217,33 @@ public class Game_plan : MonoBehaviour
             switch (PlayerAmount)
             {
                 case 2:
-                    Player red = new Player((TileType)3);
+                    Player red = new Player(TileType.red);
                     Movement.Instance.ListOfPlayers.Add(red);
 
-                    Player green = new Player((TileType)7);
+                    Player green = new Player(TileType.green);
                     Movement.Instance.ListOfPlayers.Add(green);
                 break;
                 case 3:
-                    Player redCase3 = new Player((TileType)3);
+                    Player redCase3 = new Player(TileType.red);
                     Movement.Instance.ListOfPlayers.Add(redCase3);
 
-                    Player greenCase3 = new Player((TileType)7);
-                    Movement.Instance.ListOfPlayers.Add(greenCase3);
+                    Player blueCase3 = new Player(TileType.blue);
+                    Movement.Instance.ListOfPlayers.Add(blueCase3);
 
-                    Player purpleCase3 = new Player((TileType)8);
-                    Movement.Instance.ListOfPlayers.Add(purpleCase3);
+                    Player yellowCase3 = new Player(TileType.yellow);
+                    Movement.Instance.ListOfPlayers.Add(yellowCase3);
                 break;
                 case 4:
-                    Player redCase4 = new Player((TileType)3);
+                    Player redCase4 = new Player(TileType.red);
                     Movement.Instance.ListOfPlayers.Add(redCase4);
 
-                    Player greenCase4 = new Player((TileType)7);
+                    Player greenCase4 = new Player(TileType.green);
                     Movement.Instance.ListOfPlayers.Add(greenCase4);
 
-                    Player purpleCase4 = new Player((TileType)8);
+                    Player purpleCase4 = new Player(TileType.purple);
                     Movement.Instance.ListOfPlayers.Add(purpleCase4);
 
-                    Player yellowCase4 = new Player((TileType)5);
+                    Player yellowCase4 = new Player(TileType.yellow);
                     Movement.Instance.ListOfPlayers.Add(yellowCase4);
                 break;
                 case 6:
@@ -357,7 +357,7 @@ public class Game_plan : MonoBehaviour
                 }
                 return cor;
             case 3:
-                if (cor != TileType.red && cor != TileType.green && cor != TileType.purple && cor != TileType.invalid)
+                if (cor != TileType.red && cor != TileType.blue && cor != TileType.yellow && cor != TileType.invalid)
                 {
                     cor = TileType.empty;
                 }
