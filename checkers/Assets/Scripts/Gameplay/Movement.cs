@@ -20,9 +20,6 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour {
 
-
-
-
     [SerializeField]
     private TileScript mySelected;
     public TileScript _MySelected { get { return mySelected; } set { mySelected = value; } }
@@ -63,9 +60,10 @@ public class Movement : MonoBehaviour {
         }
         else
         {
+            Game_plan.Instance.startBoard.states[_MySelected._MyCore.y, _MySelected._MyCore.x] = tile._MyType;
+            Game_plan.Instance.startBoard.states[tile._MyCore.y, tile._MyCore.x] = _MySelected._MyType;
             _MySelected._MyPiece.transform.position = tile.transform.position + new Vector3(0, 0, -0.5f);
             tile._MyPiece = _MySelected._MyPiece;
-
             currentPlayer.ListOfPawns.Remove(_MySelected);
             currentPlayer.ListOfPawns.Add(tile);
 

@@ -12,10 +12,27 @@ public class MainMenu : MonoBehaviour
     public static int NumberOfPlayers = 2;
     public TextMeshProUGUI PlayerAmountText;
     public TextMeshProUGUI Modetext;
+    public GameObject LoadButton;
     public static bool startFromLoad;
+    public static  bool GameIsSaved = false;
     public static Mode currentMode = Mode.VsAi;
 
 
+    private void Awake()
+    {
+      if(GameIsSaved == false)
+        {
+            LoadButton.GetComponent<Button>().interactable = false;
+        }
+      else
+        {
+            LoadButton.GetComponent<Button>().interactable = true;
+        }
+    }
+    private void Start()
+    {
+        currentMode = Mode.VsAi;
+    }
 
     public void PlayGame()
     {
@@ -81,6 +98,10 @@ public class MainMenu : MonoBehaviour
             currentMode = Mode.VsAi;
             Modetext.text = "Vs Ai";
         }
+    }
+    public static void ChangeSaveStatus()
+    {
+        GameIsSaved = true;
     }
 }
 

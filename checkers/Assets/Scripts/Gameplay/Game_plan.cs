@@ -59,19 +59,18 @@ public class Game_plan : MonoBehaviour
 
     void Start()
     {
-     PlayerAmount =  MainMenu.NumberOfPlayers;
+    PlayerAmount =  MainMenu.NumberOfPlayers;
+    if(PlayerAmount == 2)
+    {
+     startBoard.states = TwoPlayerBoard.states;
+    }
+    if (MainMenu.startFromLoad)
+    {
+     Save_Load_Logic.LoadGame();
+    }
      PlayerInstantiator();
      Setup(Copy);
      CreatStartingPositions();
-     if(MainMenu.startFromLoad)
-      {
-       LoadGame();
-      }
-
-    foreach (var player in Movement.Instance.ListOfPlayers)
-    {
-     AddToWinningPositionList(player);
-    }
     }
     void Setup(TileScript ProxyTile)
     {
@@ -84,26 +83,22 @@ public class Game_plan : MonoBehaviour
         {
             int offset = new int();
             offset++;
-
-
             if (CurrentRow % 2 == 0)
             {
                 ProxyTile = Instantiate(item, new Vector2(CurrentCol + 0.5f * offset, CurrentRow), transform.rotation);
                 PositionArray[CurrentRow, CurrentCol] = ProxyTile;
-                ProxyTile._MyType = SetupPlayerAmount(cor);
+                ProxyTile._MyType = SetupPlayerAmount(cor, ProxyTile);
                 ProxyTile._MyCore = new Vector2Int(CurrentCol, CurrentRow);
-                TypeHandler(SetupPlayerAmount(cor), ProxyTile, CurrentRow, CurrentCol, offset);
+                TypeHandler(ProxyTile._MyType, ProxyTile, CurrentRow, CurrentCol, offset);
             }
             else if (CurrentRow % 2 != 0)
             {
                 ProxyTile = Instantiate(item, new Vector2(CurrentCol, CurrentRow), transform.rotation);
                 PositionArray[CurrentRow, CurrentCol] = ProxyTile;
-                ProxyTile._MyType = SetupPlayerAmount(cor);
+                ProxyTile._MyType = SetupPlayerAmount(cor, ProxyTile);
                 ProxyTile._MyCore = new Vector2Int(CurrentCol, CurrentRow);
-                TypeHandler(SetupPlayerAmount(cor), ProxyTile, CurrentRow, CurrentCol, offset);
+                TypeHandler(ProxyTile._MyType, ProxyTile, CurrentRow, CurrentCol, offset);
             }
-
-
             CurrentCol++;
 
             if (CurrentCol >= 13)
@@ -271,109 +266,251 @@ public class Game_plan : MonoBehaviour
             }
         }
     }
-
-
-    public void AddToWinningPositionList(Player p)
-    {
-        switch (p.id)
-        {
-
-            case TileType.red:
-
-                foreach (var positions in PositionArray)
-                {
-                    if (positions._MyType == TileType.green)
-                    {
-                        p.WinningPositions.Add(positions);
-                        p.winningSpotNumber = 0;
-                    }
-                }     
-                break;
-            case TileType.blue:
-                foreach (var positions in PositionArray)
-                {
-                    if (positions._MyType == TileType.orange)
-                    {
-                        p.WinningPositions.Add(positions);
-                        p.winningSpotNumber = 9;
-                    }
-                }
-                   break;
-            case TileType.yellow:
-                foreach (var positions in PositionArray)
-                {
-                    if (positions._MyType == TileType.purple)
-                    {
-                        p.WinningPositions.Add(positions);
-                        p.winningSpotNumber = 6;
-                    }
-                }
-                break;
-            case TileType.orange:
-                foreach (var positions in PositionArray)
-                {
-                    if (positions._MyType == TileType.blue)
-                    {
-                        p.WinningPositions.Add(positions);
-                        p.winningSpotNumber = 0;
-                    }
-                }
-                break;
-            case TileType.green:
-                foreach (var positions in PositionArray)
-                {
-                    if (positions._MyType == TileType.red)
-                    {
-                        p.WinningPositions.Add(positions);
-                        p.winningSpotNumber = 9;
-                    }
-                }
-                break;
-            case TileType.purple:
-                foreach (var positions in PositionArray)
-                {
-                    if (positions._MyType == TileType.yellow)
-                    {
-                        p.WinningPositions.Add(positions);
-                        p.winningSpotNumber = 3;
-                    }
-                }
-                break;
-            default:
-                break;
-        }
-
-
-    } //creat list of winning positions for current player
-
-    TileType SetupPlayerAmount(TileType cor)
+        TileType SetupPlayerAmount(TileType cor,TileScript proxyTile)
     {
         switch (PlayerAmount)
         {
             case 2:
-                if (cor != TileType.red && cor != TileType.green && cor != TileType.invalid)
+                if (cor == TileType.green)
                 {
+                    foreach (var player in Movement.Instance.ListOfPlayers)
+                    {
+                        if (player.id == TileType.red)
+                        {
+                            player.WinningPositions.Add(proxyTile);
+                        }
+                    }
+                }
+                else if (cor == TileType.red)
+                {
+                    foreach (var player in Movement.Instance.ListOfPlayers)
+                    {
+                        if (player.id == TileType.green)
+                        {
+                            player.WinningPositions.Add(proxyTile);
+                        }
+                    }
+                }
+                if (cor != TileType.red && cor != TileType.green && cor != TileType.invalid)
+                {                   
                     cor = TileType.empty;
                 }
                 return cor;
             case 3:
+
+                if (cor == TileType.green)
+                {
+                    foreach (var player in Movement.Instance.ListOfPlayers)
+                    {
+                        if (player.id == TileType.red)
+                        {
+                            player.WinningPositions.Add(proxyTile);
+                        }
+                    }
+                }
+                else if (cor == TileType.orange)
+                {
+                    foreach (var player in Movement.Instance.ListOfPlayers)
+                    {
+                        if (player.id == TileType.blue)
+                        {
+                            player.WinningPositions.Add(proxyTile);
+                        }
+                    }
+                }
+                else if (cor == TileType.purple)
+                {
+                    foreach (var player in Movement.Instance.ListOfPlayers)
+                    {
+                        if (player.id == TileType.yellow)
+                        {
+                            player.WinningPositions.Add(proxyTile);
+                        }
+                    }
+                }
                 if (cor != TileType.red && cor != TileType.blue && cor != TileType.yellow && cor != TileType.invalid)
                 {
                     cor = TileType.empty;
                 }
                 return cor;
             case 4:
+                if (cor == TileType.green)
+                {
+                    foreach (var player in Movement.Instance.ListOfPlayers)
+                    {
+                        if (player.id == TileType.red)
+                        {
+                            player.WinningPositions.Add(proxyTile);
+                        }
+                    }
+                }
+                else if (cor == TileType.red)
+                {
+                    foreach (var player in Movement.Instance.ListOfPlayers)
+                    {
+                        if (player.id == TileType.green)
+                        {
+                            player.WinningPositions.Add(proxyTile);
+                        }
+                    }
+                }
+                else if (cor == TileType.yellow)
+                {
+                    foreach (var player in Movement.Instance.ListOfPlayers)
+                    {
+                        if (player.id == TileType.purple)
+                        {
+                            player.WinningPositions.Add(proxyTile);
+                        }
+                    }
+                }
+                else if (cor == TileType.purple)
+                {
+                    foreach (var player in Movement.Instance.ListOfPlayers)
+                    {
+                        if (player.id == TileType.yellow)
+                        {
+                            player.WinningPositions.Add(proxyTile);
+                        }
+                    }
+                }
                 if (cor != TileType.red && cor != TileType.green && cor != TileType.purple && cor != TileType.yellow && cor != TileType.invalid)
                 {
                     cor = TileType.empty;
                 }
                 return cor;
             case 6:
+                if (cor == TileType.green)
+                {
+                    foreach (var player in Movement.Instance.ListOfPlayers)
+                    {
+                        if (player.id == TileType.red)
+                        {
+                            player.WinningPositions.Add(proxyTile);
+                        }
+                    }
+                }
+                else if (cor == TileType.red)
+                {
+                    foreach (var player in Movement.Instance.ListOfPlayers)
+                    {
+                        if (player.id == TileType.green)
+                        {
+                            player.WinningPositions.Add(proxyTile);
+                        }
+                    }
+                }
+                else if (cor == TileType.yellow)
+                {
+                    foreach (var player in Movement.Instance.ListOfPlayers)
+                    {
+                        if (player.id == TileType.purple)
+                        {
+                            player.WinningPositions.Add(proxyTile);
+                        }
+                    }
+                }
+                else if (cor == TileType.purple)
+                {
+                    foreach (var player in Movement.Instance.ListOfPlayers)
+                    {
+                        if (player.id == TileType.yellow)
+                        {
+                            player.WinningPositions.Add(proxyTile);
+                        }
+                    }
+                }
+                else if (cor == TileType.blue)
+                {
+                    foreach (var player in Movement.Instance.ListOfPlayers)
+                    {
+                        if (player.id == TileType.orange)
+                        {
+                            player.WinningPositions.Add(proxyTile);
+                        }
+                    }
+                }
+                else if (cor == TileType.orange)
+                {
+                    foreach (var player in Movement.Instance.ListOfPlayers)
+                    {
+                        if (player.id == TileType.blue)
+                        {
+                            player.WinningPositions.Add(proxyTile);
+                        }
+                    }
+                }
                 return cor;
             default:
                 return cor;
         }
+    } // this is way to long. Fix that 
+        void SetupPlayerWinningPositions(TileScript proxyTile)
+        {
+            switch (PlayerAmount)
+            {
+            case 2:
+                if(proxyTile._MyType == TileType.red)
+                {
+                    foreach (var player in Movement.Instance.ListOfPlayers)
+                    {
+                        if(player.id == TileType.green)
+                        {
+                            player.WinningPositions.Add(proxyTile);
+                        } 
+                    }
+                }else if (proxyTile._MyType == TileType.green)
+                {
+                    foreach (var player in Movement.Instance.ListOfPlayers)
+                    {
+                        if (player.id == TileType.red)
+                        {
+                            player.WinningPositions.Add(proxyTile);
+                        }
+                    }
+                }
+                break;
+            case 3:
+                if (proxyTile._MyType == TileType.red)
+                {
+                    foreach (var player in Movement.Instance.ListOfPlayers)
+                    {
+                        if (player.id == TileType.green)
+                        {
+                            player.WinningPositions.Add(proxyTile);
+                        }
+                    }
+                }
+                else if (proxyTile._MyType == TileType.blue)
+                {
+                    foreach (var player in Movement.Instance.ListOfPlayers)
+                    {
+                        if (player.id == TileType.orange)
+                        {
+                            player.WinningPositions.Add(proxyTile);
+                        }
+                    }
+                }
+                else if (proxyTile._MyType == TileType.yellow)
+                {
+                    foreach (var player in Movement.Instance.ListOfPlayers)
+                    {
+                        if (player.id == TileType.purple)
+                        {
+                            player.WinningPositions.Add(proxyTile);
+                        }
+                    }
+                }
+                break;
+            case 4:
+                break;
+            case 6:
+                break;
+            default:
+                break;
+        }
     }
+        
 
     public void MoveAi() //Move AI - Is called in from TileScript
     {
@@ -422,31 +559,6 @@ public class Game_plan : MonoBehaviour
         }
         AiBoardCordinates.Clear();
     } //changes visible representation of the board, recives new board from Minimax.  
-
-    public void LoadGame() // This method uses playerData to move pawns on board. information is recived from file on the hardDrive.
-    {
-        PlayerData data = SaveSystem.LoadPlayer();
-        List<Vector2Int> ListOfPositions = new List<Vector2Int>();
-
-        int Counter = 0;
-        for (int i = 0; i < data.position.Length; i += 2)
-        {
-            ListOfPositions.Add(new Vector2Int((int)data.position[i], (int)data.position[i + 1]));
-        }
-        foreach (var players in Movement.Instance.ListOfPlayers)
-        {
-            foreach (var pawn in players.ListOfPawns.ToArray())
-            {
-                Movement.Instance._MySelected = pawn;
-                Movement.Instance.MovePiece(PositionArray[ListOfPositions[Counter].y, ListOfPositions[Counter].x]);
-                Counter++;
-            }
-        }
-    }
-    public void SavePlayer()
-    {
-        SaveSystem.SaveGame();
-    }
 }
 
 ///<summary>
@@ -553,12 +665,15 @@ public class Board : IState
                     output += 100;
                 }
             }
+
+            output -= (int)Vector3.Distance(piece.transform.position, player.WinningPositions[RandomNumberForValue].transform.position);
+
             foreach (var startPieces in player.StartingPositions)
             {
                 if (piece._MyCore != startPieces._MyCore)
                 {
                     output += (10 + (int)Vector3.Distance(piece.transform.position, startPieces.transform.position));
-                    output -= (int)Vector3.Distance(piece.transform.position, player.WinningPositions[RandomNumberForValue].transform.position);
+
                 }
                 else if (piece._MyCore == startPieces._MyCore)
                 {

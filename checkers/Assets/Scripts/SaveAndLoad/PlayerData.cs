@@ -6,20 +6,30 @@ using UnityEngine;
 public class PlayerData 
 {
     public int numberOfPlayers;
-    public float[] position;
-    public PlayerData(List<Player> ListOfPlayers)
+    public int[,] BoardState;
+    public PlayerData(Board currentBoard)
     {
         numberOfPlayers = MainMenu.NumberOfPlayers;
-        position = new float[20 * ListOfPlayers.Count];
+
+        BoardState = new int[17,13];
+
+        for (int i = 0; i < BoardState.GetLength(0); i++)
+        {
+            for (int j = 0; j < BoardState.GetLength(1); j++)
+            {
+                BoardState[i, j] = (int)currentBoard.states[i,j];
+            }
+        }
+        
+        /*
         int counter = 0;
         foreach (var players in ListOfPlayers)
         {
             for (int i = 0; i < players.ListOfPawns.Count; i++)
             {
-                position[counter++] = players.ListOfPawns[i]._MyCore.x;
                 position[counter++] = players.ListOfPawns[i]._MyCore.y;
+                position[counter++] = players.ListOfPawns[i]._MyCore.x;
             }
-        }
+        }*/
     }
-
 }

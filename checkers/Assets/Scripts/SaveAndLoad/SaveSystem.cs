@@ -11,7 +11,7 @@ public static class SaveSystem
         FileStream stream = new FileStream(path, FileMode.Create);
 
 
-        PlayerData data = new PlayerData(Movement.Instance.ListOfPlayers);
+        PlayerData data = new PlayerData(Game_plan.Instance.startBoard);
 
         formatter.Serialize(stream, data);
         stream.Close();
