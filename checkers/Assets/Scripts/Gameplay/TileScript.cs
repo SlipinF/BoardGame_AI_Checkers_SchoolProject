@@ -20,10 +20,6 @@ public class TileScript : MonoBehaviour {
     {
         Movement.Instance.SelectionCheck(this);
 
-        if (MainMenu.currentMode == Mode.VsAi)
-        {
-            Game_plan.Instance.MoveAi();
-        }
     }
     
 }

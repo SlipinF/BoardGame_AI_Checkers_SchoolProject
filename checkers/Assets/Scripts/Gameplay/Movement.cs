@@ -78,20 +78,23 @@ public class Movement : MonoBehaviour {
 
     }
 
-    public void CreatListOfMovesForAI(TileScript currentPawn)
+    public List<TileScript> CreatListOfMovesForAI(TileScript currentPawn)
     {
-        if (currentPawn._MyType != TileType.invalid && currentPawn._MyType != TileType.empty && currentPawn._MyType == currentPlayer.id)
+        List<TileScript> PossibleMovesLocalList = new List<TileScript>();
+        if (currentPawn._MyType != TileType.invalid && currentPawn._MyType != TileType.empty)
         {
             _MySelected = currentPawn;
             IndexCheck(currentPawn);
 
             for (int j = 0; j < PossibleMoves.Count; j++)
             {
-                PossibleMovesForAi.Add(PossibleMoves[j]);
+                PossibleMovesLocalList.Add(PossibleMoves[j]);
             }
             ClearSelectedPieces();
             _MySelected = null;
+            return PossibleMovesLocalList;
         }
+    return PossibleMovesLocalList;
     }
 
     public void SelectionCheck(TileScript Tile)
@@ -209,6 +212,10 @@ public class Movement : MonoBehaviour {
         methodcallback.ChangeThePlayerColorIcon((int)currentPlayer.id);
         PossibleMovesForAi.Clear();
         PossibleMoves.Clear();
+        if (MainMenu.currentMode == Mode.VsAi && currentPlayer.id != TileType.red)
+        {
+            Game_plan.Instance.MoveAi();
+        }
 
 
     } // manages playerIndex and resets it after it reaches last player

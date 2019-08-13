@@ -32,6 +32,7 @@ public class MainMenu : MonoBehaviour
     private void Start()
     {
         currentMode = Mode.VsAi;
+        NumberOfPlayers = 2;
     }
 
     public void PlayGame()

@@ -9,6 +9,7 @@ public class Uicontroller : MonoBehaviour
 {
     public List<Sprite> sprites;
     public TextMeshProUGUI ColorText;
+    public TextMeshProUGUI EndScreenName;
     public Image imageToChange;
     public GameObject gamebackground;
     public GameObject endScreen;
@@ -34,7 +35,7 @@ public class Uicontroller : MonoBehaviour
     public void ChangeThePlayerColorIcon(int currentPlayerId)
     {
         imageToChange.sprite = sprites[currentPlayerId];
-        ChangeText(currentPlayerId);
+        ChangeText(currentPlayerId, ColorText);
     }
 
     public void QuitGameButton()
@@ -49,7 +50,7 @@ public class Uicontroller : MonoBehaviour
     }
 
 
-    public void ChangeText(int currentplayer)
+    public void ChangeText(int currentplayer, TextMeshProUGUI ColorText)
     {
         switch (currentplayer)
         {
@@ -79,6 +80,7 @@ public class Uicontroller : MonoBehaviour
 
     public void DisplayEndScreen(Player p)
     {
+        ChangeText((int)p.id, EndScreenName);
         endScreen.SetActive(true);
     }
 }

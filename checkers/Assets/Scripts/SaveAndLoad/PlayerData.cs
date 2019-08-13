@@ -7,6 +7,7 @@ public class PlayerData
 {
     public int numberOfPlayers;
     public int[,] BoardState;
+    public int[,] WinningPositions;
     public PlayerData(Board currentBoard)
     {
         numberOfPlayers = MainMenu.NumberOfPlayers;
@@ -20,16 +21,5 @@ public class PlayerData
                 BoardState[i, j] = (int)currentBoard.states[i,j];
             }
         }
-        
-        /*
-        int counter = 0;
-        foreach (var players in ListOfPlayers)
-        {
-            for (int i = 0; i < players.ListOfPawns.Count; i++)
-            {
-                position[counter++] = players.ListOfPawns[i]._MyCore.y;
-                position[counter++] = players.ListOfPawns[i]._MyCore.x;
-            }
-        }*/
     }
 }
