@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Save_Load_Logic : MonoBehaviour
 {
-    public static void LoadGame() // This method uses playerData to move pawns on board. information is recived from file on the hardDrive.
+    public static void LoadGame() // This method uses playerData to move pieces on board. information is recived from file on the hardDrive.
     {
         PlayerData data = SaveSystem.LoadPlayer();
         for (int i = 0; i < Game_plan.Instance.startBoard.states.GetLength(0); i++)

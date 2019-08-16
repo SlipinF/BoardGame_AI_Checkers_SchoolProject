@@ -19,7 +19,6 @@ public class TileScript : MonoBehaviour {
     void OnMouseDown()
     {
         Movement.Instance.SelectionCheck(this);
-
     }
     
 }

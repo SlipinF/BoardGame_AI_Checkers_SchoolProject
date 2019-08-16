@@ -1,23 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Collections;
 using Minimax;
-public enum TileType {invalid, empty, taken, red, blue, yellow, orange, green, purple};
+public enum TileType {invalid, empty, red, blue, yellow, orange, green, purple};
 public enum Direction {N,E,S,W,NW,NE,SE,WS};
 
 
 ///<summary>
 /// Game_plan class contains:
 /// Setup method that instantiet board and paws on the screen 
-/// PlayerInstantiator that recives amount of players from ' and instantient that many players in game.
-/// 
-/// This class was supposed to operate as GameManager for program, instantiet and operate with visual part of the game.
-/// 
-/// 
-/// 
-/// Goal of this script is to instantiet board and pawns and manage logic of the game
-/// 
+/// PlayerInstantiator that recives number of players from mainmenu and instantient that many players in game.
+/// Goal of this script is to instantiet board and pieces and manage logic of the game
 ///</summary>
 
 
@@ -25,7 +18,7 @@ public class Game_plan : MonoBehaviour
 {
     //Variables for Setup()
     public TileScript item;
-    public GameObject pawn;
+    public GameObject piece;
     public const int maxRow = 13;
     public const int maxCol = 17;
     readonly TileScript Copy;
@@ -35,7 +28,7 @@ public class Game_plan : MonoBehaviour
     public List<Vector2Int> AiBoardCordinates = new List<Vector2Int>(); //Cordinates for Ai movement
     public bool onePlayerwon;
     public bool winningSpotChanged = false;
-    public int PlayerAmount; // Int for PlayerInstantiator send from MainMenu buttons, it is set to 6 because MainMenu methods didn't work as i planned.
+    public int PlayerNumber;
 
     public TwoPlayerBoard board = new TwoPlayerBoard();
     public Board startBoard = new Board();
@@ -61,8 +54,8 @@ public class Game_plan : MonoBehaviour
 
     void Start()
     {
-        PlayerAmount = MainMenu.NumberOfPlayers;
-        if (PlayerAmount == 2)
+        PlayerNumber = MainMenu.NumberOfPlayers;
+        if (PlayerNumber == 2)
         {
             startBoard.states = board.states;
             boardForCompereson.states = board.states;
@@ -92,36 +85,36 @@ public class Game_plan : MonoBehaviour
                 ProxyTile = Instantiate(item, new Vector2(CurrentCol + 0.5f * offset, CurrentRow), transform.rotation);
                 PositionArray[CurrentRow, CurrentCol] = ProxyTile;
 
-                if (MainMenu.startFromLoad && PlayerAmount != 2)
+                if (MainMenu.startFromLoad && PlayerNumber != 2)
                 {
-                    SetupPlayerAmount(BoardForWinningSpots.states[CurrentRow, CurrentCol], ProxyTile);
+                    SetupPlayerNumber(BoardForWinningSpots.states[CurrentRow, CurrentCol], ProxyTile);
                     winningSpotChanged = true;
                 }
-                else if(MainMenu.startFromLoad && PlayerAmount == 2)
+                else if(MainMenu.startFromLoad && PlayerNumber == 2)
                 {
-                    SetupPlayerAmount(playerTwoBoard.states[CurrentRow, CurrentCol], ProxyTile);
+                    SetupPlayerNumber(playerTwoBoard.states[CurrentRow, CurrentCol], ProxyTile);
                     winningSpotChanged = true;
                 }
-                ProxyTile._MyType = SetupPlayerAmount(cor, ProxyTile);
-                ProxyTile._MyCore = new Vector2Int(CurrentCol, CurrentRow); //wrong
+                ProxyTile._MyType = SetupPlayerNumber(cor, ProxyTile);
+                ProxyTile._MyCore = new Vector2Int(CurrentCol, CurrentRow);
                 TypeHandler(ProxyTile._MyType, ProxyTile, CurrentRow, CurrentCol, offset);
             }
             else if (CurrentRow % 2 != 0)
             {
                 ProxyTile = Instantiate(item, new Vector2(CurrentCol, CurrentRow), transform.rotation);
                 PositionArray[CurrentRow, CurrentCol] = ProxyTile;
-                if (MainMenu.startFromLoad && PlayerAmount != 2)
+                if (MainMenu.startFromLoad && PlayerNumber != 2)
                 {
-                    SetupPlayerAmount(BoardForWinningSpots.states[CurrentRow, CurrentCol], ProxyTile);
+                    SetupPlayerNumber(BoardForWinningSpots.states[CurrentRow, CurrentCol], ProxyTile);
                     winningSpotChanged = true;
                 }
-                else if (MainMenu.startFromLoad && PlayerAmount == 2)
+                else if (MainMenu.startFromLoad && PlayerNumber == 2)
                 {
-                    SetupPlayerAmount(playerTwoBoard.states[CurrentRow, CurrentCol], ProxyTile);
+                    SetupPlayerNumber(playerTwoBoard.states[CurrentRow, CurrentCol], ProxyTile);
                     winningSpotChanged = true;
                 }
-                ProxyTile._MyType = SetupPlayerAmount(cor, ProxyTile);
-                ProxyTile._MyCore = new Vector2Int(CurrentCol, CurrentRow); //wrong
+                ProxyTile._MyType = SetupPlayerNumber(cor, ProxyTile);
+                ProxyTile._MyCore = new Vector2Int(CurrentCol, CurrentRow);
                 TypeHandler(ProxyTile._MyType, ProxyTile, CurrentRow, CurrentCol, offset);
             }
             CurrentCol++;
@@ -146,35 +139,35 @@ public class Game_plan : MonoBehaviour
         }
         if (current != TileType.empty && current != TileType.invalid)
         {
-            InstantiatePawn(col, row, offset, copy);
+            InstantiatePiece(col, row, offset, copy);
         }
 
-    } // Take care of types of tiles and calls InstantiatePawn.
+    } // Take care of types of tiles and calls InstantiatePieces.
 
-    void InstantiatePawn(int col, int row, int offset, TileScript tile)
+    void InstantiatePiece(int col, int row, int offset, TileScript tile)
     {
 
-        GameObject CopyOfPawn = null;
+        GameObject CopyOfPiece = null;
         if (row % 2 == 0)
         {
-            CopyOfPawn = Instantiate(pawn, new Vector3(col + 0.5f * offset, row, -0.5f), transform.rotation);
+            CopyOfPiece = Instantiate(piece, new Vector3(col + 0.5f * offset, row, -0.5f), transform.rotation);
         }
         else
         {
-            CopyOfPawn = Instantiate(pawn, new Vector3(col, row, -0.5f), transform.rotation);
+            CopyOfPiece = Instantiate(piece, new Vector3(col, row, -0.5f), transform.rotation);
         }
 
-        CopyOfPawn.GetComponent<Renderer>().material.color = ColorChange(tile);
+        CopyOfPiece.GetComponent<Renderer>().material.color = ColorChange(tile);
 
         for (int i = 0; i <= Movement.Instance.ListOfPlayers.Count - 1; i++)
         {
             if (tile._MyType == Movement.Instance.ListOfPlayers[i].id)
             {
-                Movement.Instance.ListOfPlayers[i].ListOfPawns.Add(tile);
+                Movement.Instance.ListOfPlayers[i].ListOfPieces.Add(tile);
             }
         }
-        tile._MyPiece = CopyOfPawn;
-    } // Instantiet pawns on correct possions 
+        tile._MyPiece = CopyOfPiece;
+    } // Instantiet pieces on correct possions 
 
     Color ColorChange(TileScript tile)
     {
@@ -186,35 +179,30 @@ public class Game_plan : MonoBehaviour
             case 1:
                 return Color.white;
             case 2:
-                return Color.white;
-            case 3:
                 return Color.red;
-            case 4:
+            case 3:
                 return Color.blue;
-            case 5:
+            case 4:
                 return Color.yellow;
-            case 6:
+            case 5:
                 return new Color(1, 0.5f, 0, 1);
-            case 7:
+            case 6:
                 return Color.green;
-            case 8:
+            case 7:
                 return new Color(0.5f, 0, 1, 1);
-
             default:
                 return new Color32(0, 0, 0, 1);
         }
     }
-
-
     public bool WinCheck(Player p) // this script checks if the game was won by any player.
     {
         int Counter = 0;
-        foreach (var pawn in p.ListOfPawns)
+        foreach (var piece in p.ListOfPieces)
         {
             foreach (var winningposition in p.WinningPositions)
             {
 
-                if (pawn._MyCore == winningposition._MyCore)
+                if (piece._MyCore == winningposition._MyCore)
                 {
                     Counter++;
                 }
@@ -235,10 +223,9 @@ public class Game_plan : MonoBehaviour
             return false;
         }
     }
-
     void PlayerInstantiator()
     {
-        switch (PlayerAmount)
+        switch (PlayerNumber)
         {
             case 2:
                 Player red = new Player(TileType.red);
@@ -271,9 +258,9 @@ public class Game_plan : MonoBehaviour
                 Movement.Instance.ListOfPlayers.Add(yellowCase4);
                 break;
             case 6:
-                for (int i = 0; i < PlayerAmount; i++)
+                for (int i = 0; i < PlayerNumber; i++)
                 {
-                    Player player = new Player((TileType)i + 3);
+                    Player player = new Player((TileType)i + 2);
                     Movement.Instance.ListOfPlayers.Add(player);
                 }
                 break;
@@ -281,13 +268,21 @@ public class Game_plan : MonoBehaviour
                 break;
         }
 
-        Movement.Instance.currentPlayer = Movement.Instance.ListOfPlayers[Movement.Instance.playerIndex];
-        Movement.Instance.PlayerTwo = Movement.Instance.ListOfPlayers[Movement.Instance.playerIndex + 1];
-    } // instatiante different amout of players depending on choosen amount in menu
+        Movement.Instance.SetCurrentPlayer();
 
-    TileType SetupPlayerAmount(TileType cor, TileScript proxyTile)
+    } // instatiante different number of players depending on choosen number in menu
+
+
+    /// <summary>
+    /// SetupPlayerNumber sets cordinates recived from Setup() to empty in case if those coordinates don't match with colors of any active player.
+    /// This method also populate WinningPoistion List with tiles.
+    /// lastly this method sets PlayerWinningSpot in to correct value and populate startingPositions list with correct tiles.
+    /// </summary>
+     
+     //I realize that this method is very long and could have been sperated into 3 different methods. 
+    TileType SetupPlayerNumber(TileType cor, TileScript proxyTile)
     {
-        switch (PlayerAmount)
+        switch (PlayerNumber)
         {
             case 2:
                 if (cor == TileType.green && winningSpotChanged == false)
@@ -297,6 +292,8 @@ public class Game_plan : MonoBehaviour
                         if (player.id == TileType.red )
                         {
                             player.WinningPositions.Add(proxyTile);
+                            player.PlayerWinningSpot = 14;
+
                         }
 
                         if (player.id == TileType.green)
@@ -312,6 +309,7 @@ public class Game_plan : MonoBehaviour
                         if (player.id == TileType.green)
                         {
                             player.WinningPositions.Add(proxyTile);
+                            player.PlayerWinningSpot = 0;
                         }
 
                         if (player.id == TileType.red)
@@ -334,6 +332,7 @@ public class Game_plan : MonoBehaviour
                         if (player.id == TileType.red)
                         {
                             player.WinningPositions.Add(proxyTile);
+                            player.PlayerWinningSpot = 0;
                         }
                     }
                 }
@@ -344,6 +343,7 @@ public class Game_plan : MonoBehaviour
                         if (player.id == TileType.blue)
                         {
                             player.WinningPositions.Add(proxyTile);
+                            player.PlayerWinningSpot = 9;
                         }
                     }
                 }
@@ -354,6 +354,7 @@ public class Game_plan : MonoBehaviour
                         if (player.id == TileType.yellow)
                         {
                             player.WinningPositions.Add(proxyTile);
+                            player.PlayerWinningSpot = 6;
                         }
                     }
                 }
@@ -400,6 +401,7 @@ public class Game_plan : MonoBehaviour
                         if (player.id == TileType.red)
                         {
                             player.WinningPositions.Add(proxyTile);
+                            player.PlayerWinningSpot = 6;
                         }
 
                         if (player.id == TileType.green)
@@ -415,6 +417,7 @@ public class Game_plan : MonoBehaviour
                         if (player.id == TileType.green)
                         {
                             player.WinningPositions.Add(proxyTile);
+                            player.PlayerWinningSpot = 6;
                         }
                         if (player.id == TileType.red)
                         {
@@ -429,6 +432,7 @@ public class Game_plan : MonoBehaviour
                         if (player.id == TileType.purple)
                         {
                             player.WinningPositions.Add(proxyTile);
+                            player.PlayerWinningSpot = 6;
                         }
                         if (player.id == TileType.yellow)
                         {
@@ -443,6 +447,7 @@ public class Game_plan : MonoBehaviour
                         if (player.id == TileType.yellow)
                         {
                             player.WinningPositions.Add(proxyTile);
+                            player.PlayerWinningSpot = 6;
                         }
                         if (player.id == TileType.purple)
                         {
@@ -464,6 +469,7 @@ public class Game_plan : MonoBehaviour
                         if (player.id == TileType.red)
                         {
                             player.WinningPositions.Add(proxyTile);
+                            player.PlayerWinningSpot = 9;
                         }
                         if (player.id == TileType.green)
                         {
@@ -478,6 +484,7 @@ public class Game_plan : MonoBehaviour
                         if (player.id == TileType.green)
                         {
                             player.WinningPositions.Add(proxyTile);
+                            player.PlayerWinningSpot = 0;
                         }
                        if (player.id == TileType.red)
                         {
@@ -492,6 +499,7 @@ public class Game_plan : MonoBehaviour
                         if (player.id == TileType.purple)
                         {
                             player.WinningPositions.Add(proxyTile);
+                            player.PlayerWinningSpot = 6;
                         }
                        if (player.id == TileType.yellow)
                         {
@@ -506,6 +514,7 @@ public class Game_plan : MonoBehaviour
                         if (player.id == TileType.yellow)
                         {
                             player.WinningPositions.Add(proxyTile);
+                            player.PlayerWinningSpot = 3;
                         }
                         if (player.id == TileType.purple)
                         {
@@ -520,6 +529,7 @@ public class Game_plan : MonoBehaviour
                         if (player.id == TileType.orange)
                         {
                             player.WinningPositions.Add(proxyTile);
+                            player.PlayerWinningSpot = 0;
                         }
                        if (player.id == TileType.blue)
                         {
@@ -534,6 +544,7 @@ public class Game_plan : MonoBehaviour
                         if (player.id == TileType.blue)
                         {
                             player.WinningPositions.Add(proxyTile);
+                            player.PlayerWinningSpot = 9;
                         }
                         if (player.id == TileType.orange)
                         {
@@ -545,12 +556,16 @@ public class Game_plan : MonoBehaviour
             default:
                 return cor;
         }
-    } // this is way to long. Fix that 
+    }
 
+   
+    /// <summary>
+    /// MoveAi() executes the Nimimax script. Sends in list of players except red player that is controlled by player.
+    /// Calls changeVissibleBoard that  Comperes the difference between previous board and new recived board and moves pawns accordingly.
+    /// </summary>
 
-    public void MoveAi() //Move AI - Is called in from TileScript
+    public void MoveAi()
     {
-        //Debug.Log(startBoard.outputValue);
         boardForCompereson = startBoard;
         List<IPlayer> ListOfPlayerForMiniMax = new List<IPlayer>();
         foreach (var playerForList in Movement.Instance.ListOfPlayers)
@@ -563,16 +578,17 @@ public class Game_plan : MonoBehaviour
 
         foreach (var player in Movement.Instance.ListOfPlayers)
         {
-                if (Movement.Instance.currentPlayer != Movement.Instance.ListOfPlayers[0])
+            if (Movement.Instance.currentPlayer != Movement.Instance.ListOfPlayers[0])
             {
-                startBoard = (Board)MiniMax.Select(startBoard, Movement.Instance.currentPlayer, ListOfPlayerForMiniMax, 2, true);
+                startBoard = (Board)MiniMax.Select(startBoard, Movement.Instance.currentPlayer, ListOfPlayerForMiniMax, Movement.Instance.PlayerTwo , 1 , true);
                 ChangeVisibleBoard(Movement.Instance.currentPlayer, boardForCompereson);
             }
         }
         
-    }
+    } 
     public void ChangeVisibleBoard(Player p, Board boardForExchange)
     {
+        AiBoardCordinates.Clear();
         for (int i = 0; i < boardForExchange.states.GetLength(0); i++)
         {
             for (int j = 0; j < boardForExchange.states.GetLength(1); j++)
@@ -585,151 +601,31 @@ public class Game_plan : MonoBehaviour
         }
         if (AiBoardCordinates.Count != 2)
         {
+            Debug.Log(AiBoardCordinates.Count + " and " + p.id);
             return;
         }
 
         TileScript firstTile = PositionArray[AiBoardCordinates[0].x, AiBoardCordinates[0].y];
         TileScript secondTile = PositionArray[AiBoardCordinates[1].x, AiBoardCordinates[1].y];
 
-        foreach (var pawn in p.ListOfPawns.ToArray())
+        foreach (var piece in p.ListOfPieces.ToArray())
         {
-            if (pawn._MyCore == firstTile._MyCore && secondTile._MyType == TileType.empty)
+            if (piece._MyCore == firstTile._MyCore && secondTile._MyType == TileType.empty)
             {
-                Movement.Instance._MySelected = pawn;
+                Movement.Instance._MySelected = piece;
                 Movement.Instance.MovePiece(secondTile);
             }
-            else if (pawn._MyCore == secondTile._MyCore && firstTile._MyType == TileType.empty)
+            else if (piece._MyCore == secondTile._MyCore && firstTile._MyType == TileType.empty)
             {
-                Movement.Instance._MySelected = pawn;
+                Movement.Instance._MySelected = piece;
                 Movement.Instance.MovePiece(firstTile);
             }
         }
         AiBoardCordinates.Clear();
     } //changes visible representation of the board, recives new board from Minimax.  
+
 }
 
-///<summary>
-/// Player class contains:
-/// -player id and it supplies Minimax with Iplayer interface.
-/// -ListOfPawns used for calculeting all possible moves for each player
-/// -WinningPositions- list that contains all winning positions for player
-///</summary>
 
 
 
-[Serializable]
-public class Player : IPlayer
-{
-    public List<TileScript> ListOfPawns = new List<TileScript>();
-    public List<TileScript> WinningPositions = new List<TileScript>();
-    public List<TileScript> StartingPositions = new List<TileScript>();
-    public TileType id;
-
-    public Player(TileType id)
-    {
-        this.id = id;
-    }
-}
-
-///<summary>
-/// Board class contains:
-/// "blueprint" of board in 2D array called states.
-/// Expand method for Minimax - this method loops through each pawn of specifik player (currentPlayer) and creats instances of Board class for each new move made.
-///  Value - this method callculates distance between each pawn of currentPlayer and winning position for player. Returns value. 
-///</summary>
-
-public class Board : IState
-{
-    public  int outputValue;
-    public TileType[,] states = new TileType[Game_plan.maxCol, Game_plan.maxRow] {
-      {TileType.invalid,TileType.invalid,TileType.invalid,TileType.invalid, TileType.invalid,TileType.invalid,TileType.green,TileType.invalid,TileType.invalid,TileType.invalid,TileType.invalid,TileType.invalid,TileType.invalid},
-      {TileType.invalid,TileType.invalid,TileType.invalid,TileType.invalid, TileType.invalid,TileType.invalid,TileType.green,TileType.green,TileType.invalid,TileType.invalid,TileType.invalid,TileType.invalid,TileType.invalid},
-      {TileType.invalid,TileType.invalid,TileType.invalid,TileType.invalid, TileType.invalid,TileType.green,TileType.green,TileType.green,TileType.invalid,TileType.invalid,TileType.invalid,TileType.invalid,TileType.invalid},
-      {TileType.invalid,TileType.invalid,TileType.invalid,TileType.invalid, TileType.invalid,TileType.green,TileType.green,TileType.green,TileType.green,TileType.invalid,TileType.invalid,TileType.invalid,TileType.invalid},
-      {TileType.blue,TileType.blue,TileType.blue,TileType.blue, TileType.empty,TileType.empty,TileType.empty,TileType.empty,TileType.empty,TileType.yellow,TileType.yellow,TileType.yellow,TileType.yellow},
-      {TileType.invalid,TileType.blue,TileType.blue,TileType.blue, TileType.empty,TileType.empty,TileType.empty,TileType.empty,TileType.empty,TileType.empty,TileType.yellow,TileType.yellow,TileType.yellow},
-      {TileType.invalid,TileType.blue,TileType.blue,TileType.empty, TileType.empty,TileType.empty,TileType.empty,TileType.empty,TileType.empty,TileType.empty,TileType.yellow,TileType.yellow,TileType.invalid},
-      {TileType.invalid,TileType.invalid,TileType.blue,TileType.empty, TileType.empty,TileType.empty,TileType.empty,TileType.empty,TileType.empty,TileType.empty,TileType.empty,TileType.yellow,TileType.invalid},
-      {TileType.invalid,TileType.invalid,TileType.empty,TileType.empty, TileType.empty,TileType.empty,TileType.empty,TileType.empty,TileType.empty,TileType.empty,TileType.empty,TileType.invalid,TileType.invalid},
-      {TileType.invalid,TileType.invalid,TileType.purple,TileType.empty, TileType.empty,TileType.empty,TileType.empty,TileType.empty,TileType.empty,TileType.empty,TileType.empty,TileType.orange,TileType.invalid},
-      {TileType.invalid,TileType.purple,TileType.purple,TileType.empty, TileType.empty,TileType.empty,TileType.empty,TileType.empty,TileType.empty,TileType.empty,TileType.orange,TileType.orange,TileType.invalid},
-      {TileType.invalid,TileType.purple,TileType.purple,TileType.purple, TileType.empty,TileType.empty,TileType.empty,TileType.empty,TileType.empty,TileType.empty,TileType.orange,TileType.orange,TileType.orange},
-      {TileType.purple,TileType.purple,TileType.purple,TileType.purple, TileType.empty,TileType.empty,TileType.empty,TileType.empty,TileType.empty,TileType.orange,TileType.orange,TileType.orange,TileType.orange},
-      {TileType.invalid,TileType.invalid,TileType.invalid,TileType.invalid, TileType.invalid,TileType.red,TileType.red,TileType.red,TileType.red,TileType.invalid,TileType.invalid,TileType.invalid,TileType.invalid},
-      {TileType.invalid,TileType.invalid,TileType.invalid,TileType.invalid, TileType.invalid,TileType.red,TileType.red,TileType.red,TileType.invalid,TileType.invalid,TileType.invalid,TileType.invalid,TileType.invalid},
-      {TileType.invalid,TileType.invalid,TileType.invalid,TileType.invalid, TileType.invalid,TileType.invalid,TileType.red,TileType.red,TileType.invalid,TileType.invalid,TileType.invalid,TileType.invalid,TileType.invalid},
-      {TileType.invalid,TileType.invalid,TileType.invalid,TileType.invalid, TileType.invalid,TileType.invalid,TileType.red,TileType.invalid,TileType.invalid,TileType.invalid,TileType.invalid,TileType.invalid,TileType.invalid},
-      };
-
-    public List<IState> Expand(IPlayer player)
-    {
-
-        List<IState> output = new List<IState>();
-        List<TileScript> ListOfPossibleMoves = new List<TileScript>();
-        Player playerForCheck = (Player)player;
-
-        for (int i = 0; i < playerForCheck.ListOfPawns.Count; i++)
-        {
-            ListOfPossibleMoves = Movement.Instance.CreatListOfMovesForAI(playerForCheck.ListOfPawns[i]);
-
-            for (int b = 0; b < ListOfPossibleMoves.Count; b++)
-            {
-               Board UniqBoard = new Board();
-
-               for (int j = 0; j < UniqBoard.states.GetLength(0); j++)
-                {
-                    for (int y = 0; y < UniqBoard.states.GetLength(1); y++)
-                    {
-                        UniqBoard.states[j, y] = Game_plan.Instance.startBoard.states[j, y];
-                    }
-                }
-
-                UniqBoard.states[playerForCheck.ListOfPawns[i]._MyCore.y, playerForCheck.ListOfPawns[i]._MyCore.x] = TileType.empty;
-                UniqBoard.states[ListOfPossibleMoves[b]._MyCore.y, ListOfPossibleMoves[b]._MyCore.x] = playerForCheck.ListOfPawns[i]._MyType;
-                output.Add(UniqBoard);
-            }
-            //Movement.Instance.PossibleMovesForAi.Clear();
-        }
-        return output;
-    }
-
-    public int currentValue { set; get; }
-
-    public int Value(IPlayer p)
-    {
-        Player player = (Player)p;
-
-        int RandomNumberForValue = UnityEngine.Random.Range(0, 9);
-
-        int output = 0;
-
-        foreach (var piece in player.ListOfPawns)
-        {
-
-            foreach (var positions in player.WinningPositions)
-            {
-               // output += -10 - (int)Vector2Int.Distance(piece._MyCore, positions._MyCore);
-            }
-           /*foreach (var winningSpot in player.WinningPositions)
-             {
-                 if (piece._MyCore == winningSpot._MyCore)
-                 {
-                     output += 100;
-                 }
-            }*/
-
-          //output -=  100 - (int)Vector2.Distance(new Vector2(piece.transform.position.x, piece.transform.position.y), new Vector2(player.WinningPositions[9].transform.position.x, player.WinningPositions[9].transform.position.y));
-          output -= 100 - (int)Vector2Int.Distance(piece._MyCore, player.WinningPositions[14]._MyCore);
-
-              foreach (var startPieces in player.StartingPositions)
-              {
-                if (piece._MyCore == startPieces._MyCore)
-                {
-                    output -= 100;
-                }
-                }
-      }
-        outputValue = output;
-        return ((int)output);
-    }
-}

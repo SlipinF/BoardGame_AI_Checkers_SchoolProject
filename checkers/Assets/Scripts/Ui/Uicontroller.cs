@@ -43,7 +43,7 @@ public class Uicontroller : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
-    public void RestartLevel()
+    public  void RestartLevel()
     {
         Scene scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.name);
@@ -54,25 +54,24 @@ public class Uicontroller : MonoBehaviour
     {
         switch (currentplayer)
         {
+            case 2:
+                ColorText.text = "RED";
+                break;
             case 3:
-                ColorText.text = "red";
+                ColorText.text = "BLUE";
                 break;
             case 4:
-                ColorText.text = "blue";
+                ColorText.text = "YELLOW";
                 break;
             case 5:
-                ColorText.text = "Yellow";
+                ColorText.text = "ORANGE";
                 break;
             case 6:
-                ColorText.text = "orange";
+                ColorText.text = "GREEN";
                 break;
             case 7:
-                ColorText.text = "green";
+                ColorText.text = "PURPLE";
                 break;
-            case 8:
-                ColorText.text = "purple";
-                break;
-
             default:
                 break;
         }

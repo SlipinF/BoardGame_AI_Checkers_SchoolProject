@@ -10,7 +10,7 @@ public enum Mode {VsAi,VsPlayer}
 public class MainMenu : MonoBehaviour
 {
     public static int NumberOfPlayers = 2;
-    public TextMeshProUGUI PlayerAmountText;
+    public TextMeshProUGUI PlayerNumberText;
     public TextMeshProUGUI Modetext;
     public GameObject LoadButton;
     public static bool startFromLoad;
@@ -59,7 +59,7 @@ public class MainMenu : MonoBehaviour
         {
             NumberOfPlayers = 2;
         }
-        PlayerAmountText.text = NumberOfPlayers.ToString();
+        PlayerNumberText.text = NumberOfPlayers.ToString();
     }
 
 
@@ -78,7 +78,7 @@ public class MainMenu : MonoBehaviour
         {
             NumberOfPlayers = 6;
         }
-        PlayerAmountText.text = NumberOfPlayers.ToString();
+        PlayerNumberText.text = NumberOfPlayers.ToString();
     }
     public void StartGameFromLoad()
     {

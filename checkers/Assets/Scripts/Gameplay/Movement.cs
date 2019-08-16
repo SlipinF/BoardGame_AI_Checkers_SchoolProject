@@ -9,12 +9,12 @@ using UnityEngine;
 /// Goal with this script was to separate boards from movement in order to make Minimax functional.
 /// 
 /// The most important methods for player movement in this scipt are : 
-/// MovePiece() that is managing all the moves made to the pawn.
+/// MovePiece() that is managing all the moves made to the piece.
 /// SelectionCheck() that handles on click selection, IndexCheck() that passes forward informations recived from SelectionCheck(), DirectionCheck()...
-/// ...that makes check for every dirrection possible for pawn and AddTileToList() that creats list of all possibles moves used later to determine...
+/// ...that makes check for every dirrection possible for piece and AddTileToList() that creats list of all possibles moves used later to determine...
 /// ...where to move by player
 /// Importants methods for Ai are :
-/// CreatListOfMovesForAI that creats list of moves for all pawns of Ai player and MoveAi that handles movement of the AI
+/// CreatListOfMovesForAI that creats list of moves for all pieces of Ai player and MoveAi that handles movement of the AI
 ///</summary
 
 
@@ -56,7 +56,7 @@ public class Movement : MonoBehaviour {
     {
         if (tile._MyType != TileType.empty)
         {
-
+            
         }
         else
         {
@@ -64,8 +64,8 @@ public class Movement : MonoBehaviour {
             Game_plan.Instance.startBoard.states[tile._MyCore.y, tile._MyCore.x] = _MySelected._MyType;
             _MySelected._MyPiece.transform.position = tile.transform.position + new Vector3(0, 0, -0.5f);
             tile._MyPiece = _MySelected._MyPiece;
-            currentPlayer.ListOfPawns.Remove(_MySelected);
-            currentPlayer.ListOfPawns.Add(tile);
+            currentPlayer.ListOfPieces.Remove(_MySelected);
+            currentPlayer.ListOfPieces.Add(tile);
 
             _MySelected._MyPiece = null;
             tile._MyType = _MySelected._MyType;
@@ -75,16 +75,15 @@ public class Movement : MonoBehaviour {
             ClearSelectedPieces();
             EndTurn();
         }
-
     }
 
-    public List<TileScript> CreatListOfMovesForAI(TileScript currentPawn)
+    public List<TileScript> CreatListOfMovesForAI(TileScript currentPiece)
     {
         List<TileScript> PossibleMovesLocalList = new List<TileScript>();
-        if (currentPawn._MyType != TileType.invalid && currentPawn._MyType != TileType.empty)
+        if (currentPiece._MyType != TileType.invalid && currentPiece._MyType != TileType.empty)
         {
-            _MySelected = currentPawn;
-            IndexCheck(currentPawn);
+            _MySelected = currentPiece;
+            IndexCheck(currentPiece);
 
             for (int j = 0; j < PossibleMoves.Count; j++)
             {
@@ -209,22 +208,26 @@ public class Movement : MonoBehaviour {
             PlayerTwo = ListOfPlayers[playerIndex + 1];
         }
         currentPlayer = ListOfPlayers[playerIndex];
-        methodcallback.ChangeThePlayerColorIcon((int)currentPlayer.id);
         PossibleMovesForAi.Clear();
         PossibleMoves.Clear();
         if (MainMenu.currentMode == Mode.VsAi && currentPlayer.id != TileType.red)
         {
             Game_plan.Instance.MoveAi();
         }
-
-
+        methodcallback.ChangeThePlayerColorIcon((int)currentPlayer.id);
     } // manages playerIndex and resets it after it reaches last player
+
+
+    public void SetCurrentPlayer()
+    {
+        currentPlayer = ListOfPlayers[playerIndex];
+        PlayerTwo = ListOfPlayers[playerIndex + 1];
+    }
 
     void DirectionCheck(Direction NewDirection, TileScript Tile, bool firstCheck, bool hasMoved)
     {
         int row = Tile._MyCore.x;
         int column = Tile._MyCore.y;
-
 
         try
         {
@@ -286,11 +289,7 @@ public class Movement : MonoBehaviour {
         {
 
         }
-
-
-
-
-    } //makes direction check everytime pawn is selected
+    } //makes direction check everytime piece is selected
 
 
 }
