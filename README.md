@@ -25,6 +25,8 @@ The following project is an implementation of the Mini-Max algorithm in the game
 • How to balance simple Ai in stategic games // Making game fair for non-computer players.
 
 
+
+
 # Tools and methods used during the project 
 
 • TestLink 
