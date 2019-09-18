@@ -34,7 +34,6 @@ public class Movement : MonoBehaviour {
     public Player PlayerTwo;
     public Uicontroller methodcallback;
 
-
     //Singelton logic
     public static Movement Instance { get; private set; }
     private void Awake()
@@ -71,6 +70,7 @@ public class Movement : MonoBehaviour {
             tile._MyType = _MySelected._MyType;
             _MySelected._MyType = TileType.empty;
             _MySelected = null;
+
 
             ClearSelectedPieces();
             EndTurn();
@@ -132,6 +132,7 @@ public class Movement : MonoBehaviour {
             foreach (var positon in PossibleMoves)
             {
                 positon.GetComponent<Renderer>().material.color = Color.green;
+                positon.SetSelected(true);
             }
         }
     }
@@ -182,6 +183,11 @@ public class Movement : MonoBehaviour {
         foreach (var positon in PossibleMoves)
         {
             positon.GetComponent<Renderer>().material.color = Color.white;
+            positon.SetSelected(false);
+            if(positon._MyType != TileType.empty)
+            {
+              positon.SetClicked(false);
+            }
         }
         PossibleMoves.Clear();
     }
@@ -216,7 +222,6 @@ public class Movement : MonoBehaviour {
         }
         methodcallback.ChangeThePlayerColorIcon((int)currentPlayer.id);
     } // manages playerIndex and resets it after it reaches last player
-
 
     public void SetCurrentPlayer()
     {

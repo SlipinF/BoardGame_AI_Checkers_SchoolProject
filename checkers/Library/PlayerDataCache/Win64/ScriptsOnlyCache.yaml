@@ -4,9 +4,11 @@ ScriptsOnlyBuild:
     - Game_plan
     - MainMenu
     - Movement
+    - Save_Load_Logic
     - TileScript
     - Uicontroller
     Unity.TextMeshPro.dll:
+    - TMPro.TMP_ColorGradient
     - TMPro.TMP_FontAsset
     - TMPro.TMP_Settings
     - TMPro.TMP_SpriteAsset
@@ -22,7 +24,6 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.GraphicRaycaster
     - UnityEngine.UI.Image
     - UnityEngine.UI.RawImage
-    - UnityEngine.UI.Text
   sceneClasses:
     Assets/Scenes/GameScene.unity:
     - Class: 1
@@ -52,31 +53,33 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 9342}
+      Script: {instanceID: 9394}
     - Class: 114
-      Script: {instanceID: 9344}
-    - Class: 114
-      Script: {instanceID: 9350}
-    - Class: 114
-      Script: {instanceID: 9356}
-    - Class: 114
-      Script: {instanceID: 9364}
-    - Class: 114
-      Script: {instanceID: 9400}
+      Script: {instanceID: 9396}
     - Class: 114
       Script: {instanceID: 9402}
     - Class: 114
-      Script: {instanceID: 9606}
+      Script: {instanceID: 9408}
     - Class: 114
-      Script: {instanceID: 9986}
+      Script: {instanceID: 9416}
     - Class: 114
-      Script: {instanceID: 10082}
+      Script: {instanceID: 9452}
     - Class: 114
-      Script: {instanceID: 10154}
+      Script: {instanceID: 9638}
     - Class: 114
-      Script: {instanceID: 10234}
+      Script: {instanceID: 9958}
     - Class: 114
-      Script: {instanceID: 10354}
+      Script: {instanceID: 10048}
+    - Class: 114
+      Script: {instanceID: 10110}
+    - Class: 114
+      Script: {instanceID: 10176}
+    - Class: 114
+      Script: {instanceID: 10194}
+    - Class: 114
+      Script: {instanceID: 10284}
+    - Class: 114
+      Script: {instanceID: 10458}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -119,33 +122,33 @@ ScriptsOnlyBuild:
     - Class: 109
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 9342}
+      Script: {instanceID: 9394}
     - Class: 114
-      Script: {instanceID: 9344}
-    - Class: 114
-      Script: {instanceID: 9350}
-    - Class: 114
-      Script: {instanceID: 9356}
-    - Class: 114
-      Script: {instanceID: 9364}
-    - Class: 114
-      Script: {instanceID: 9386}
-    - Class: 114
-      Script: {instanceID: 9400}
+      Script: {instanceID: 9396}
     - Class: 114
       Script: {instanceID: 9402}
     - Class: 114
-      Script: {instanceID: 9756}
+      Script: {instanceID: 9408}
     - Class: 114
-      Script: {instanceID: 10082}
+      Script: {instanceID: 9416}
     - Class: 114
-      Script: {instanceID: 10092}
+      Script: {instanceID: 9438}
     - Class: 114
-      Script: {instanceID: 10094}
+      Script: {instanceID: 9452}
     - Class: 114
-      Script: {instanceID: 10234}
+      Script: {instanceID: 9764}
     - Class: 114
-      Script: {instanceID: 10474}
+      Script: {instanceID: 10048}
+    - Class: 114
+      Script: {instanceID: 10058}
+    - Class: 114
+      Script: {instanceID: 10060}
+    - Class: 114
+      Script: {instanceID: 10176}
+    - Class: 114
+      Script: {instanceID: 10390}
+    - Class: 114
+      Script: {instanceID: 10458}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -595,7 +598,7 @@ ScriptsOnlyBuild:
     className: SignalAsset
   - hash:
       serializedVersion: 2
-      Hash: 6eebf57ed12dd5ed33ca7af595d65240
+      Hash: ba1b1869ef418cd7924f4b07447f8d1b
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Movement
@@ -679,7 +682,7 @@ ScriptsOnlyBuild:
     className: TextContainer
   - hash:
       serializedVersion: 2
-      Hash: e187c616579542cb1279cbac57f3e7b0
+      Hash: db5d28d2f79bcc5db31887cc35a62381
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Uicontroller
@@ -691,7 +694,7 @@ ScriptsOnlyBuild:
     className: SignalReceiver
   - hash:
       serializedVersion: 2
-      Hash: 4a0369cd366c126cd420018a4ac01f32
+      Hash: 35a9693c388776aaf487636491a20f11
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TMP_FontAsset
@@ -703,7 +706,7 @@ ScriptsOnlyBuild:
     className: TMP_Settings
   - hash:
       serializedVersion: 2
-      Hash: 9684f870d6bae71650f84f13bebe4adc
+      Hash: d6ae4d2e52087ed5dd01d03a43a42b4a
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: MainMenu
@@ -751,7 +754,7 @@ ScriptsOnlyBuild:
     className: TestResultRendererCallback
   - hash:
       serializedVersion: 2
-      Hash: f43a7bc067752c121ef957f65eba746d
+      Hash: a85ed84f3fd38d9e4fb684acf23f4c37
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Game_plan
@@ -767,6 +770,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TextMeshProUGUI
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Save_Load_Logic
   - hash:
       serializedVersion: 2
       Hash: 516824a435828eadd660ef2f1658a48e
@@ -831,4 +840,4 @@ ScriptsOnlyBuild:
   scenePathNames:
   - Assets/Scenes/MainMenu.unity
   - Assets/Scenes/GameScene.unity
-  playerPath: C:/Users/Kacper Duda/Desktop/Kinaschack/checkers.exe
+  playerPath: C:/Users/Kacper Duda/Desktop/KacperDuda_Kinaschack_Komplettering_SP17/checkers.exe

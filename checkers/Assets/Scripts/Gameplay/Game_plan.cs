@@ -52,6 +52,15 @@ public class Game_plan : MonoBehaviour
     }
     //End of Singelton logic
 
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.P))
+        {
+            MoveAi();
+        }
+    }
+
     void Start()
     {
         PlayerNumber = MainMenu.NumberOfPlayers;
@@ -82,7 +91,7 @@ public class Game_plan : MonoBehaviour
             winningSpotChanged = false;
             if (CurrentRow % 2 == 0)
             {
-                ProxyTile = Instantiate(item, new Vector2(CurrentCol + 0.5f * offset, CurrentRow), transform.rotation);
+                ProxyTile = Instantiate(item, new Vector2(CurrentCol + 0.5f * offset, CurrentRow), item.transform.rotation);
                 PositionArray[CurrentRow, CurrentCol] = ProxyTile;
 
                 if (MainMenu.startFromLoad && PlayerNumber != 2)
@@ -101,7 +110,7 @@ public class Game_plan : MonoBehaviour
             }
             else if (CurrentRow % 2 != 0)
             {
-                ProxyTile = Instantiate(item, new Vector2(CurrentCol, CurrentRow), transform.rotation);
+                ProxyTile = Instantiate(item, new Vector2(CurrentCol, CurrentRow), item.transform.rotation);
                 PositionArray[CurrentRow, CurrentCol] = ProxyTile;
                 if (MainMenu.startFromLoad && PlayerNumber != 2)
                 {
@@ -150,11 +159,11 @@ public class Game_plan : MonoBehaviour
         GameObject CopyOfPiece = null;
         if (row % 2 == 0)
         {
-            CopyOfPiece = Instantiate(piece, new Vector3(col + 0.5f * offset, row, -0.5f), transform.rotation);
+            CopyOfPiece = Instantiate(piece, new Vector3(col + 0.5f * offset, row, -0.5f), piece.transform.rotation);
         }
         else
         {
-            CopyOfPiece = Instantiate(piece, new Vector3(col, row, -0.5f), transform.rotation);
+            CopyOfPiece = Instantiate(piece, new Vector3(col, row, -0.5f), piece.transform.rotation);
         }
 
         CopyOfPiece.GetComponent<Renderer>().material.color = ColorChange(tile);
@@ -570,6 +579,7 @@ public class Game_plan : MonoBehaviour
         List<IPlayer> ListOfPlayerForMiniMax = new List<IPlayer>();
         foreach (var playerForList in Movement.Instance.ListOfPlayers)
         {
+            ListOfPlayerForMiniMax.Add(playerForList);
             if (playerForList != Movement.Instance.ListOfPlayers[0])
             {
                 ListOfPlayerForMiniMax.Add(playerForList);
@@ -578,17 +588,20 @@ public class Game_plan : MonoBehaviour
 
         foreach (var player in Movement.Instance.ListOfPlayers)
         {
+            startBoard = (Board)MiniMax.Select(startBoard, Movement.Instance.currentPlayer, ListOfPlayerForMiniMax, Movement.Instance.PlayerTwo, 1, true);
+            ChangeVisibleBoard(Movement.Instance.currentPlayer, boardForCompereson);
+
             if (Movement.Instance.currentPlayer != Movement.Instance.ListOfPlayers[0])
             {
                 startBoard = (Board)MiniMax.Select(startBoard, Movement.Instance.currentPlayer, ListOfPlayerForMiniMax, Movement.Instance.PlayerTwo , 1 , true);
                 ChangeVisibleBoard(Movement.Instance.currentPlayer, boardForCompereson);
             }
-        }
-        
-    } 
+        }      
+    }
+
     public void ChangeVisibleBoard(Player p, Board boardForExchange)
     {
-        AiBoardCordinates.Clear();
+;        AiBoardCordinates.Clear();
         for (int i = 0; i < boardForExchange.states.GetLength(0); i++)
         {
             for (int j = 0; j < boardForExchange.states.GetLength(1); j++)
@@ -599,29 +612,26 @@ public class Game_plan : MonoBehaviour
                 }
             }
         }
-        if (AiBoardCordinates.Count != 2)
+        if (AiBoardCordinates.Count == 2)
         {
-            Debug.Log(AiBoardCordinates.Count + " and " + p.id);
-            return;
-        }
+            TileScript firstTile = PositionArray[AiBoardCordinates[0].x, AiBoardCordinates[0].y];
+            TileScript secondTile = PositionArray[AiBoardCordinates[1].x, AiBoardCordinates[1].y];
 
-        TileScript firstTile = PositionArray[AiBoardCordinates[0].x, AiBoardCordinates[0].y];
-        TileScript secondTile = PositionArray[AiBoardCordinates[1].x, AiBoardCordinates[1].y];
-
-        foreach (var piece in p.ListOfPieces.ToArray())
-        {
-            if (piece._MyCore == firstTile._MyCore && secondTile._MyType == TileType.empty)
+            foreach (var piece in p.ListOfPieces.ToArray())
             {
-                Movement.Instance._MySelected = piece;
-                Movement.Instance.MovePiece(secondTile);
+                if (piece._MyCore == firstTile._MyCore && secondTile._MyType == TileType.empty)
+                {
+                    Movement.Instance._MySelected = piece;
+                    Movement.Instance.MovePiece(secondTile);
+                }
+                else if (piece._MyCore == secondTile._MyCore && firstTile._MyType == TileType.empty)
+                {
+                    Movement.Instance._MySelected = piece;
+                    Movement.Instance.MovePiece(firstTile);
+                }
             }
-            else if (piece._MyCore == secondTile._MyCore && firstTile._MyType == TileType.empty)
-            {
-                Movement.Instance._MySelected = piece;
-                Movement.Instance.MovePiece(firstTile);
-            }
+            AiBoardCordinates.Clear();
         }
-        AiBoardCordinates.Clear();
     } //changes visible representation of the board, recives new board from Minimax.  
 
 }
