@@ -27,6 +27,7 @@ The following project is an implementation of the Mini-Max algorithm in the game
 
 
 
+
 # Tools and methods used during the project 
 
 • TestLink 
