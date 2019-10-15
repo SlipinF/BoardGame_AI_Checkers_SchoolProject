@@ -12,6 +12,7 @@ using Minimax;
 
 public class Player : IPlayer
 {
+    
     public List<TileScript> ListOfPieces = new List<TileScript>();
     public List<TileScript> WinningPositions = new List<TileScript>();
     public List<TileScript> StartingPositions = new List<TileScript>();
