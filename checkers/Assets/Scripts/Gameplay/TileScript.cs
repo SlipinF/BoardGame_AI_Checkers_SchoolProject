@@ -9,9 +9,12 @@ using UnityEngine;
 
 public class TileScript : MonoBehaviour {
 
+   
     [SerializeField]
+   
     private TileType myType;
     public TileType _MyType { get { return myType; } set { myType = value;}}
+  
     public GameObject _MyPiece { get; set; }
     public Vector2Int _MyCore { get; set; }
 
