@@ -87,6 +87,7 @@ public class MainMenu : MonoBehaviour
         NumberOfPlayers = data.numberOfPlayers;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
+    
     public void RightModeSelection()
     {
         if(currentMode == Mode.VsAi)
