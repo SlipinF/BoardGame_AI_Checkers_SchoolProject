@@ -18,11 +18,13 @@ public class Uicontroller : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            
             if (gamebackground.activeSelf)
             {
                 gamebackground.SetActive(false);
                 Time.timeScale = 1f;
             }
+            
             else
             {
                 gamebackground.SetActive(true);
