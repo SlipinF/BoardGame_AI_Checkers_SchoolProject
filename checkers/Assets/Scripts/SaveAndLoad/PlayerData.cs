@@ -5,6 +5,8 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerData 
 {
+    
+    
     public int numberOfPlayers;
     public int[,] BoardState;
     public int[,] WinningPositions;
