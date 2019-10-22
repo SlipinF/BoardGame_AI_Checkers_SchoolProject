@@ -10,6 +10,7 @@ The following project is an implementation of the Mini-Max algorithm in the game
 
 
 
+
 # What have i learned
 
 •  How to implement simple Ai to strategic solved games.
@@ -23,9 +24,6 @@ The following project is an implementation of the Mini-Max algorithm in the game
 • How to operate on local files from c# script [Save/Load].
 
 • How to balance simple Ai in stategic games // Making game fair for non-computer players.
-
-
-
 
 
 # Tools and methods used during the project 
