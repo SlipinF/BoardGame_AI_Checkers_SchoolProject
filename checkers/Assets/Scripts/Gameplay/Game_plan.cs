@@ -95,8 +95,10 @@ public class Game_plan : MonoBehaviour
             {
                 ProxyTile = Instantiate(item, new Vector2(CurrentCol + 0.5f * offset, CurrentRow), item.transform.rotation);
                 PositionArray[CurrentRow, CurrentCol] = ProxyTile;
+                
+                
 
-                if (MainMenu.startFromLoad && PlayerNumber != 2)
+                 if (MainMenu.startFromLoad && PlayerNumber != 2)
                 {
                     SetupPlayerNumber(BoardForWinningSpots.states[CurrentRow, CurrentCol], ProxyTile);
                     winningSpotChanged = true;
@@ -112,6 +114,8 @@ public class Game_plan : MonoBehaviour
             }
             else if (CurrentRow % 2 != 0)
             {
+            
+            
                 ProxyTile = Instantiate(item, new Vector2(CurrentCol, CurrentRow), item.transform.rotation);
                 PositionArray[CurrentRow, CurrentCol] = ProxyTile;
                 if (MainMenu.startFromLoad && PlayerNumber != 2)
