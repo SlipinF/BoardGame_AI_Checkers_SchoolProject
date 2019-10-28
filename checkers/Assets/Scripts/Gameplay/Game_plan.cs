@@ -16,6 +16,8 @@ public enum Direction {N,E,S,W,NW,NE,SE,WS};
 ///</summary>
 
 
+
+
 public class Game_plan : MonoBehaviour
 {
     //Variables for Setup()
@@ -116,7 +118,9 @@ public class Game_plan : MonoBehaviour
             {
             
             
-                ProxyTile = Instantiate(item, new Vector2(CurrentCol, CurrentRow), item.transform.rotation);
+               
+               
+               ProxyTile = Instantiate(item, new Vector2(CurrentCol, CurrentRow), item.transform.rotation);
                 PositionArray[CurrentRow, CurrentCol] = ProxyTile;
                 if (MainMenu.startFromLoad && PlayerNumber != 2)
                 {
