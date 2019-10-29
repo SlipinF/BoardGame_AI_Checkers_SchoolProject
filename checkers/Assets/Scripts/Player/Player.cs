@@ -9,17 +9,15 @@ using Minimax;
 /// -WinningPositions- list that contains all winning positions for player
 ///</summary>
 
-
 public class Player : IPlayer
 {
-    
-    public List<TileScript> ListOfPieces = new List<TileScript>();
+   public List<TileScript> ListOfPieces = new List<TileScript>();
    
    public List<TileScript> WinningPositions = new List<TileScript>();
     
-    public List<TileScript> StartingPositions = new List<TileScript>();
+   public List<TileScript> StartingPositions = new List<TileScript>();
     
-    public int PlayerWinningSpot;
+   public int PlayerWinningSpot;
    
    public TileType id;
 
