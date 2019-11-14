@@ -20,7 +20,6 @@ public class Player : IPlayer
    public int PlayerWinningSpot;
    
    public TileType id;
-
     public Player(TileType id)
     {
         this.id = id;
