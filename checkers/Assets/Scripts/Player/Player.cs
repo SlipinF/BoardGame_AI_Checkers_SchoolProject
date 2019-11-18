@@ -23,5 +23,6 @@ public class Player : IPlayer
     public Player(TileType id)
     {
         this.id = id;
+        
     }
 }
