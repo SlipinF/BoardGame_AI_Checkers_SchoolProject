@@ -19,7 +19,6 @@ using UnityEngine;
 
 
 public class Movement : MonoBehaviour {
-
     [SerializeField]
     private TileScript mySelected;
     public TileScript _MySelected { get { return mySelected; } set { mySelected = value; } }
