@@ -34,6 +34,7 @@ public class Movement : MonoBehaviour {
     public Player PlayerTwo;
     public Uicontroller methodcallback;
 
+    
     //Singelton logic
     public static Movement Instance { get; private set; }
     private void Awake()
