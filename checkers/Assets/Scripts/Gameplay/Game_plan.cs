@@ -6,16 +6,12 @@ public enum TileType {invalid, empty, red, blue, yellow, orange, green, purple};
 public enum Direction {N,E,S,W,NW,NE,SE,WS};
 
 
-
-
 ///<summary>
 /// Game_plan class contains:
 /// Setup method that instantiet board and paws on the screen 
 /// PlayerInstantiator that recives number of players from mainmenu and instantient that many players in game.
 /// Goal of this script is to instantiet board and pieces and manage logic of the game
 ///</summary>
-
-
 
 
 public class Game_plan : MonoBehaviour
