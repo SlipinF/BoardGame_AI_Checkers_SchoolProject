@@ -61,8 +61,7 @@ public class Game_plan : MonoBehaviour
             MoveAi();
         }
     }
-
-    void Start()
+     void Start()
     {
         PlayerNumber = MainMenu.NumberOfPlayers;
         if (PlayerNumber == 2)
