@@ -12,7 +12,6 @@ public enum Direction {N,E,S,W,NW,NE,SE,WS};
 /// Goal of this script is to instantiet board and pieces and manage logic of the game
 ///</summary>
 
-
 public class Game_plan : MonoBehaviour
 {  
     //Variables for Setup()
