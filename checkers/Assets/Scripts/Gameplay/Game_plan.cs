@@ -14,7 +14,7 @@ public enum Direction {N,E,S,W,NW,NE,SE,WS};
 
 public class Game_plan : MonoBehaviour
 {  
-    //Variables for Setup()
+   //Variables for Setup()
     public TileScript item;
     public GameObject piece;
     public const int maxRow = 13;
