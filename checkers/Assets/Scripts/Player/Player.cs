@@ -8,6 +8,9 @@ using Minimax;
 /// -ListOfPieces used for calculeting all possible moves for each player
 /// -WinningPositions- list that contains all winning positions for player
 ///</summary>
+
+
+
 public class Player : IPlayer
 {
    public List<TileScript> ListOfPieces = new List<TileScript>();   
