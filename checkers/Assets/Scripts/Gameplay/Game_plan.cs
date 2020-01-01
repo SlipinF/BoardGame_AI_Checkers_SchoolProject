@@ -13,6 +13,9 @@ public enum Direction {N,E,S,W,NW,NE,SE,WS};
 ///</summary>
 
 public class Game_plan : MonoBehaviour
+
+
+
 {  
    //Variables for Setup()
     public TileScript item;
