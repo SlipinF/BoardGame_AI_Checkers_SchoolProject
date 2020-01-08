@@ -12,6 +12,7 @@ public class TileScript : MonoBehaviour {
    
     [SerializeField]
    
+   
     private TileType myType;
     public TileType _MyType { get { return myType; } set { myType = value;}}
   
