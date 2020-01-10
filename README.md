@@ -10,10 +10,7 @@ The following project is an implementation of the Mini-Max algorithm in the game
 
 
 
-
 # What have i learned
-
-
 
 
 •  How to implement simple Ai to strategic solved games.
