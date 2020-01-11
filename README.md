@@ -8,8 +8,6 @@ The following project is an implementation of the Mini-Max algorithm in the game
 
 ![](ChecersGif.gif)
 
-
-
 # What have i learned
 
 
