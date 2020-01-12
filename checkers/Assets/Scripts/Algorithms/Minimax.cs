@@ -12,9 +12,7 @@ namespace Minimax
 
   public interface IPlayer
   {
-
   }
-
   class MiniMax
   {
     public static IState Select(IState state, IPlayer player, List<IPlayer> otherPlayers, IPlayer playerToExpendAgainst, int depth, bool maximising)
