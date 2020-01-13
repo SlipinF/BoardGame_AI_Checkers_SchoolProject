@@ -4,8 +4,6 @@
 The following project is an implementation of the Mini-Max algorithm in the game of Chinese checkers. It has been done as a task for "Programming 2" course at Södertörn university. the whole project has been completed in 5 weeks. This was an individual project.
 
 
-
-
 ![](ChecersGif.gif)
 
 # What have i learned
