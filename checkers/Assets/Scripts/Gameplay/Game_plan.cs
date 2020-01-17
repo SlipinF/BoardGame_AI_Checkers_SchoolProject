@@ -5,6 +5,8 @@ using Minimax;
 public enum TileType {invalid, empty, red, blue, yellow, orange, green, purple};
 public enum Direction {N,E,S,W,NW,NE,SE,WS};
 
+
+
 ///<summary>
 /// Game_plan class contains:
 /// Setup method that instantiet board and paws on the screen 
