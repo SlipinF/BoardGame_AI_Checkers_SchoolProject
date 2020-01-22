@@ -9,8 +9,6 @@ using Minimax;
 /// -WinningPositions- list that contains all winning positions for player
 ///</summary>
 
-
-
 public class Player : IPlayer
 {
 
