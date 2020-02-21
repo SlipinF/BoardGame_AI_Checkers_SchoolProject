@@ -12,7 +12,6 @@ The following project is an implementation of the Mini-Max algorithm in the game
 
 •  I expanded my knowledge on code optimization.
 
-
 •  How to creat tile based game.
 
 • I expended my knowledge on Ui implementation in [Unity].
