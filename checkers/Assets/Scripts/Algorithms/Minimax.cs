@@ -9,7 +9,6 @@ namespace Minimax
     List<IState> Expand(IPlayer player);
     int Value(IPlayer player,IState state);
   }
-
   public interface IPlayer
   {
   }
